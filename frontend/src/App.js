@@ -3,6 +3,9 @@ import React, { useState } from "react";
 function App() {
   const [searchName, setSearchName] = useState("");
   const [imgSrc, setImgSrc] = useState("");
+  const [uploadName, setUploadName] = useState("");
+  const [file, setFile] = useState(null);
+
 
   const backend = "http://localhost:3001";
 
@@ -11,6 +14,25 @@ function App() {
       alert("Please enter a name");
       return;
     }
+
+    const uploadImage = async () => {
+      if (!uploadName || !file) {
+        alert("Enter a name and pick a file first");
+        return;
+      }
+    
+      const form = new FormData();
+      form.append("image", file);
+    
+      const data = await res.json();
+    
+      if (data.success) {
+        alert("Image uploaded successfully!");
+      } else {
+        alert("Upload failed");
+      }
+    };
+    
 
     const res = await fetch(`${backend}/api/getImage?name=${searchName}`);
     const data = await res.json();
