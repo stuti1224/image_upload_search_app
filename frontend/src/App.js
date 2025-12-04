@@ -4,6 +4,25 @@ function App() {
   const [searchName, setSearchName] = useState("");
   const [imgSrc, setImgSrc] = useState("");
 
+  const backend = "http://localhost:3001";
+
+  const searchImage = async () => {
+    if (!searchName) {
+      alert("Please enter a name");
+      return;
+    }
+
+    const res = await fetch(`${backend}/api/getImage?name=${searchName}`);
+    const data = await res.json();
+
+    if (data.filename) {
+      setImgSrc(`${backend}/${data.filename}`);
+    } else {
+      setImgSrc("");
+      alert("Image not found");
+    }
+  };
+
   return (
     <div style={{ padding: 20 }}>
       <h2>Search Image</h2>
@@ -14,7 +33,7 @@ function App() {
         placeholder="Enter name e.g. tom"
       />
 
-      <button>Search</button>
+      <button onClick={searchImage}>Search</button>
 
       <div style={{ marginTop: 20 }}>
         {imgSrc ? (
