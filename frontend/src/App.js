@@ -20,7 +20,7 @@ function App() {
     setLoading(true);
 
     try {
-      const res = await fetch(`${backend}/api/upload?name=${uploadName}`);
+      const res = await fetch(`${backend}/api/getImage?name=${uploadName}`);
       const data = await res.json();
       setLoading(false);
 
@@ -68,44 +68,57 @@ function App() {
   };
 
   return (
-    <div style={{ padding: 20 }}>
-      <h2>Search Image</h2>
+    <div style={{ padding: 20, fontFamily: "Arial" }}>
+      <h1>Image Management System</h1>
+      
+      {/* Search Section */}
+      <div style={{ marginBottom: 40, padding: 20, border: "1px solid #ccc" }}>
+        <h2>Search Image</h2>
+        <input
+          value={searchName}
+          onChange={(e) => setSearchName(e.target.value)}
+          placeholder="Enter name (e.g., tom, jerry, dog)"
+          style={{ padding: 8, width: 250, marginRight: 10 }}
+        />
+        <button onClick={searchImage} style={{ padding: 8 }}>
+          Search
+        </button>
 
-      <input
-        value={searchName}
-        onChange={(e) => setSearchName(e.target.value)}
-        placeholder="Enter name e.g. tom"
-      />
+        {loading && <p>Loading...</p>}
 
-      {loading && <p>Loading...</p>}
-
-      <button onClick={searchImage}>Search</button>
-
-      <div style={{ marginTop: 20 }}>
-        {imgSrc ? (
-          <img src={imgSrc} width="300" alt="searched" />
-        ) : (
-          <p>No image selected</p>
-        )}
+        <div style={{ marginTop: 20 }}>
+          {imgSrc ? (
+            <img src={imgSrc} width="300" alt="searched" style={{ border: "2px solid #333" }} />
+          ) : (
+            <p>No image to display</p>
+          )}
+        </div>
       </div>
 
-      {/* UI section for image uploading */}
-      <hr />
-      <h2>Upload / Replace Image</h2>
+      {/* Upload Section */}
+      <div style={{ padding: 20, border: "1px solid #ccc" }}>
+        <h2>Upload / Replace Image</h2>
+        <div style={{ marginBottom: 10 }}>
+          <input
+            placeholder="Enter name (e.g., tom, jerry, dog)"
+            value={uploadName}
+            onChange={(e) => setUploadName(e.target.value)}
+            style={{ padding: 8, width: 250 }}
+          />
+        </div>
 
-      <input
-        placeholder="Enter name e.g. tom"
-        value={uploadName}
-        onChange={(e) => setUploadName(e.target.value)}
-      />
+        <div style={{ marginBottom: 10 }}>
+          <input 
+            type="file" 
+            accept="image/*"
+            onChange={(e) => setFile(e.target.files[0])} 
+          />
+        </div>
 
-      <br /><br />
-
-      <input type="file" onChange={(e) => setFile(e.target.files[0])} />
-
-      <br /><br />
-
-      <button onClick={uploadImage}>Upload</button>
+        <button onClick={uploadImage} style={{ padding: 8 }}>
+          Upload Image
+        </button>
+      </div>
     </div>
   );
 }
