@@ -11,6 +11,7 @@ app.use(express.json());
 // Serve static files (images) from /public
 app.use(express.static(path.join(__dirname, "public")));
 
+//upload image
 app.post("/api/upload", upload.single("image"), (req, res) => {
     const name = req.query.name?.toLowerCase();
     if (!name) return res.status(400).json({ error: "Missing name param" });
@@ -28,6 +29,22 @@ app.post("/api/upload", upload.single("image"), (req, res) => {
     });
   });
   
+  app.get("/api/getImage", (req, res) => {
+    const name = req.query.name?.toLowerCase();
+    if (!name) return res.json({ error: "Missing name" });
+  
+    const fs = require("fs");
+    const folder = path.join(__dirname, "public");
+  
+    const files = fs.readdirSync(folder);
+    const match = files.find((f) => f.startsWith(name));
+  
+    if (match) {
+      return res.json({ filename: match });
+    } else {
+      return res.json({ filename: null });
+    }
+  });
 // basic route
 app.get("/", (req, res) => {
   res.send("Backend server is running!");
