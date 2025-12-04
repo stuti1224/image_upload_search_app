@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 function App() {
   //all states
+  const [loading, setLoading] = useState(false);
   const [searchName, setSearchName] = useState("");
   const [imgSrc, setImgSrc] = useState("");
   const [uploadName, setUploadName] = useState("");
@@ -16,8 +17,10 @@ function App() {
       return;
     }
 
+    setLoading(true);
     const res = await fetch(`${backend}/api/getImage?name=${searchName}`);
     const data = await res.json();
+    setLoading(false);
 
     if (data.filename) {
       setImgSrc(`${backend}/${data.filename}`);
@@ -64,6 +67,7 @@ function App() {
         placeholder="Enter name e.g. tom"
       />
 
+      {loading && <p>Loading...</p>}
       <button onClick={searchImage}>Search</button>
 
       <div style={{ marginTop: 20 }}>
