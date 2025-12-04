@@ -1,10 +1,12 @@
 const express = require("express");
 const cors = require("cors");
-const app = express();
+const app = require("path");
 
-// middleware
+const app = express();
 app.use(cors());
-app.use(express.json());
+
+// Serve static files (images) from /public
+app.use(express.static(path.join(__dirname, "public")));
 
 // basic route
 app.get("/", (req, res) => {
