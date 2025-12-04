@@ -18,8 +18,8 @@ app.post("/api/upload", upload.single("image"), (req, res) => {
     if (!req.file) return res.status(400).json({ error: "No file uploaded" });
   
     const fs = require("fs");
-    let ext = path.extname(req.file.originalname).toLowerCase();
-    if (!ext) ext = ".jpg";
+    const allowed = [".jpg", ".jpeg", ".png", ".gif"];
+    if (!allowed.includes(ext)) return res.status(400).json({ error: "Invalid file type" });
   
     const savePath = path.join(__dirname, "public", name + ext);
   
