@@ -1,23 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
 
 function App() {
+  const [searchName, setSearchName] = useState("");
+  const [imgSrc, setImgSrc] = useState("");
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ padding: 20 }}>
+      <h2>Search Image</h2>
+
+      <input
+        value={searchName}
+        onChange={(e) => setSearchName(e.target.value)}
+        placeholder="Enter name e.g. tom"
+      />
+
+      <button>Search</button>
+
+      <div style={{ marginTop: 20 }}>
+        {imgSrc ? (
+          <img src={imgSrc} width="300" alt="searched" />
+        ) : (
+          <p>No image selected</p>
+        )}
+      </div>
     </div>
   );
 }
