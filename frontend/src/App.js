@@ -23,6 +23,14 @@ function App() {
     
       const form = new FormData();
       form.append("image", file);
+
+      const res = await fetch(
+        `${backend}/api/upload?name=${uploadName}`,
+        {
+          method: "POST",
+          body: form
+        }
+      );
     
       const data = await res.json();
     
