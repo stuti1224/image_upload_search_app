@@ -18,24 +18,21 @@ function App() {
     }
 
     setLoading(true);
-    const res = await fetch(`${backend}/api/getImage?name=${searchName}`);
-    const data = await res.json();
-    setLoading(false);
 
     try {
       const res = await fetch(`${backend}/api/getImage?name=${searchName}`);
       const data = await res.json();
-      ...
-    } catch (err) {
-      alert("Error connecting to backend");
-    }
-    
+    setLoading(false):
 
-    if (data.filename) {
+    if(data.filename){
       setImgSrc(`${backend}/${data.filename}`);
     } else {
       setImgSrc("");
       alert("Image not found");
+  } 
+      catch (err) {
+        setLoading(false);
+      alert("Error connecting to backend");
     }
   };
 
@@ -49,27 +46,24 @@ function App() {
     const form = new FormData();
     form.append("image", file);
 
-    const res = await fetch(
-      `${backend}/api/upload?name=${uploadName}`,
-      {
-        method: "POST",
-        body: form
-      }
-    );
-
     try {
-      const res = await fetch( ... );
+      const res = await fetch(
+        `${backend}/api/upload?name=${uploadName}`,
+        {
+          method: "POST",
+          body: form
+        }
+      );
+
       const data = await res.json();
-      ...
+
+      if (data.success) {
+        alert("Image uploaded successfully!");
+      } else {
+        alert("Upload failed");
+      }
     } catch (err) {
       alert("Upload error occurred");
-    }
-    
-    const data = await res.json();
-    if (data.success) {
-      alert("Image uploaded successfully!");
-    } else {
-      alert("Upload failed");
     }
   };
 
