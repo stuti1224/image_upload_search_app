@@ -37,7 +37,7 @@ app.post("/api/upload", upload.single("image"), (req, res) => {
     const folder = path.join(__dirname, "public");
   
     const files = fs.readdirSync(folder);
-    const match = files.find((f) => f.startsWith(name));
+    const match = files.find((f) => f.toLowerCase().startsWith(name));
   
     if (match) {
       return res.json({ filename: match });
