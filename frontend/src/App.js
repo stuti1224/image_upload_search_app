@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 function App() {
-  // all states
   const [loading, setLoading] = useState(false);
   const [searchName, setSearchName] = useState("");
   const [imgSrc, setImgSrc] = useState("");
@@ -10,7 +9,7 @@ function App() {
 
   const backend = "http://localhost:3001";
 
-  // search function
+  // search function - use searchName, not uploadName
   const searchImage = async () => {
     if (!searchName) {
       alert("Please enter a name");
@@ -20,18 +19,20 @@ function App() {
     setLoading(true);
 
     try {
-      const res = await fetch(`${backend}/api/getImage?name=${uploadName}`);
+      // Use searchName here, NOT uploadName
+      const res = await fetch(`${backend}/api/getImage?name=${searchName}`);
       const data = await res.json();
       setLoading(false);
 
       if (data.filename) {
-        setImgSrc(`${backend}/${data.filename}`);
+        setImgSrc(`${backend}/${data.filename}?t=${Date.now()}`);
       } else {
         setImgSrc("");
         alert("Image not found");
       }
     } catch (err) {
       setLoading(false);
+      console.error("Search error:", err);
       alert("Error connecting to backend");
     }
   };
@@ -58,12 +59,16 @@ function App() {
       const data = await res.json();
 
       if (data.success) {
-        alert("Image uploaded successfully!");
+        alert(`Image uploaded successfully as ${data.filename}!`);
+        // Optionally auto-refresh the search
+        setSearchName(uploadName);
+        setImgSrc(`${backend}/${data.filename}?t=${Date.now()}`);
       } else {
-        alert("Upload failed");
+        alert("Upload failed: " + (data.error || "Unknown error"));
       }
     } catch (err) {
-      alert("Upload error occurred");
+      console.error("Upload error:", err);
+      alert("Upload error occurred: " + err.message);
     }
   };
 
