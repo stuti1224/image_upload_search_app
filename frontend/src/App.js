@@ -74,9 +74,8 @@ function App() {
         )}
       </div>
 
-      {/* ================================
-          UPLOAD UI SECTION
-      ================================ */}
+      {/* UI section for image uploading */}
+
       <hr />
       <h2>Upload / Replace Image</h2>
 
