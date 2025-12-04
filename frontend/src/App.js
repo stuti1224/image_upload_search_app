@@ -22,6 +22,15 @@ function App() {
     const data = await res.json();
     setLoading(false);
 
+    try {
+      const res = await fetch(`${backend}/api/getImage?name=${searchName}`);
+      const data = await res.json();
+      ...
+    } catch (err) {
+      alert("Error connecting to backend");
+    }
+    
+
     if (data.filename) {
       setImgSrc(`${backend}/${data.filename}`);
     } else {
@@ -48,8 +57,15 @@ function App() {
       }
     );
 
+    try {
+      const res = await fetch( ... );
+      const data = await res.json();
+      ...
+    } catch (err) {
+      alert("Upload error occurred");
+    }
+    
     const data = await res.json();
-
     if (data.success) {
       alert("Image uploaded successfully!");
     } else {
