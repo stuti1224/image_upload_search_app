@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 function App() {
-  //all states
+  // all states
   const [loading, setLoading] = useState(false);
   const [searchName, setSearchName] = useState("");
   const [imgSrc, setImgSrc] = useState("");
@@ -20,18 +20,18 @@ function App() {
     setLoading(true);
 
     try {
-      const res = await fetch(`${backend}/api/getImage?name=${searchName}`);
+      const res = await fetch(`${backend}/api/upload?name=${uploadName}`);
       const data = await res.json();
-    setLoading(false):
+      setLoading(false);
 
-    if(data.filename){
-      setImgSrc(`${backend}/${data.filename}`);
-    } else {
-      setImgSrc("");
-      alert("Image not found");
-  } 
-      catch (err) {
-        setLoading(false);
+      if (data.filename) {
+        setImgSrc(`${backend}/${data.filename}`);
+      } else {
+        setImgSrc("");
+        alert("Image not found");
+      }
+    } catch (err) {
+      setLoading(false);
       alert("Error connecting to backend");
     }
   };
@@ -78,6 +78,7 @@ function App() {
       />
 
       {loading && <p>Loading...</p>}
+
       <button onClick={searchImage}>Search</button>
 
       <div style={{ marginTop: 20 }}>
@@ -89,7 +90,6 @@ function App() {
       </div>
 
       {/* UI section for image uploading */}
-
       <hr />
       <h2>Upload / Replace Image</h2>
 
@@ -106,7 +106,6 @@ function App() {
       <br /><br />
 
       <button onClick={uploadImage}>Upload</button>
-
     </div>
   );
 }
