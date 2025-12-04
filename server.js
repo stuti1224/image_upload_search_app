@@ -10,6 +10,11 @@ app.use(express.json());
 // Serve static files (images) from /public
 app.use(express.static(path.join(__dirname, "public")));
 
+app.get("/api/getImage", (req, res) => {
+    const name = req.query.name?.toLowerCase();
+    if (!name) {
+      return res.status(400).json({ error: "name query missing" });
+    }
 // basic route
 app.get("/", (req, res) => {
   res.send("Backend server is running!");
