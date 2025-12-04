@@ -15,6 +15,21 @@ app.get("/api/getImage", (req, res) => {
     if (!name) {
       return res.status(400).json({ error: "name query missing" });
     }
+    const fs = require("fs");
+  const publicPath = path.join(__dirname, "public");
+
+  // Try common image extensions
+  const extensions = [".jpg", ".jpeg", ".png", ".gif", ".webp"];
+
+  for (const ext of extensions) {
+    const filepath = path.join(publicPath, name + ext);
+    if (fs.existsSync(filepath)) {
+      return res.json({ filename: name + ext });
+    }
+  }
+
+  return res.status(404).json({ error: "Image not found" });
+});
 // basic route
 app.get("/", (req, res) => {
   res.send("Backend server is running!");
